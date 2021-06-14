@@ -1,0 +1,32 @@
+{
+
+  "users": [
+
+  {
+    "user_id":1,
+    "address":"111 Street",
+    "popup":"Hi I'm 111!",
+    "coords":[36.17213, -86.75485]
+  },
+  {
+    "user_id":2,
+    "address":"222 Street",
+    "popup":"Hi I'm 222!",
+    "coords":[36.1844, -86.74291]
+  },
+  {
+    "user_id":3,
+    "address":"333 Street",
+    "popup":"Hi I'm 333!",
+    "coords":[36.18869, -86.76962]
+  },
+  {
+    "user_id":4,
+    "address":"444 Street",
+    "popup":"Hi I'm 444!",
+    "coords":[36.196770, -86.745057]
+  }
+
+
+]}
+  

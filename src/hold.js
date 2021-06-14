@@ -33,3 +33,26 @@ export default function App() {
 }
 
 
+
+
+
+<MapContainer center={[36.179150, -86.759080]} zoom={12}>
+
+<TileLayer
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+/>
+
+{locationData.users.map(user => (
+  <Marker
+    key={user.user_id}
+    position={[
+      user.coords[0],
+      user.coords[1]
+    ]}
+    onClick={() => {
+      console.log("Hello");
+      setActiveUser(user);
+    }}
+  />
+))}
