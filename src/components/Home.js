@@ -7,9 +7,7 @@ export const Home = () => {
     return (
         <div>
             <div>
-            <img src={gyslogogive} className="logo" alt="logo" />
-            <img src={gyslogoneed} className="logo" alt="logo" />
-            </div>
+Home            </div>
         </div>
     )
 }

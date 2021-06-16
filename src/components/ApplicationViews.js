@@ -10,7 +10,7 @@ export const ApplicationViews = () => {
             <Route exact path="/">
                 <Home />
             </Route>
-            <Route exact path="/">
+            <Route exact path="/strmap">
                 <StrMap />
             </Route>
             

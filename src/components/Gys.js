@@ -9,31 +9,19 @@ import { Footer } from "./Footer"
 import "./Gys.css"
 
 export const Gys = () => (
-
   <>
-  <Route render={() => {
-    if (sessionStorage.getItem(userStorageKey)) {
-      return (
-        <>
-        <div id="page-container">
-              <NavBar />
-              <ApplicationViews />
-              <Footer/>
-        </div>
-        </>
-      )
-    } else {
-      return <Redirect to="/login" />;
-    }
-  }} />
+      <Route render={() => {
+          if (localStorage.getItem("gys_token")) {
+              return <>
+                  <Route render={NavBar} />
+                  <Route render={props => <ApplicationViews {...props} />} />
+              </>
+          } else {
+              return <Redirect to="/login" />
+          }
+      }} />
 
-  <Route path="/login">
-    <Login />
-  </Route>
-  <Route path="/register">
-    <Register />
-  </Route>
-</>
-
+      <Route path="/login" render={Login} />
+      <Route path="/register" render={Register} />
+  </>
 )
-

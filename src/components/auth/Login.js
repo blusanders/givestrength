@@ -1,96 +1,79 @@
-import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom";
-import { authApi, userStorageKey, userStorageName } from "./authSettings"
+import React from "react"
+import { Link } from "react-router-dom"
 import { Button } from 'reactstrap';
+import { authApi } from "./authSettings"
+import "./Auth.css"
 import gyslogogive from "./../../images/gyslogogive.png"
 import gyslogoneed from "./../../images/gyslogoneed.png"
 import gyslogotext from "./../../images/gyslogotext.png"
 
-//import "./Login.css"
 
-
-export const Login = () => {
-    const [loginUser, setLoginUser] = useState({ email: "" })
-    const [existDialog, setExistDialog] = useState(false)
-
-    const history = useHistory()
-
-    const handleInputChange = (event) => {
-        const newUser = { ...loginUser }
-        newUser[event.target.id] = event.target.value
-        setLoginUser(newUser)
-    }
-
-
-    const existingUserCheck = () => {
-        return fetch(`${authApi.localApiBaseUrl}/${authApi.endpoint}?email=${loginUser.email}`)
-            .then(res => res.json())
-            .then(user => user.length ? user[0] : false)
-    }
+export const Login = props => {
+    // const email = React.createRef()
+    const username = React.createRef()
+    const password = React.createRef()
+    const invalidDialog = React.createRef()
 
     const handleLogin = (e) => {
         e.preventDefault()
-
-        existingUserCheck()
-            .then(exists => {
-                if (exists) {
-                    sessionStorage.setItem(userStorageKey, exists.id)
-                    sessionStorage.setItem(userStorageName, exists.name)
-                    history.push("/")
-                } else {
-                    setExistDialog(true)
+        let fetchURL = authApi.localApiBaseUrl+"/login"
+        
+        return fetch(fetchURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: username.current.value,
+                password: password.current.value
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                if ("valid" in res && res.valid && "token" in res) {
+                    localStorage.setItem( "gys_token", res.token )
+                    localStorage.setItem( "gys_username", username.current.value )
+                    props.history.push("/")
+                }
+                else {
+                    invalidDialog.current.showModal()
                 }
             })
     }
 
     return (
         <main className="container--login">
-        
-            <dialog className="dialog dialog--auth" open={existDialog}>
-                <div>User does not exist</div>
-                <button className="button--close" onClick={e => setExistDialog(false)}>Close</button>
+            <dialog className="dialog dialog--auth" ref={invalidDialog}>
+                <div>Email or password was not valid.</div>
+                <button className="button--close" onClick={e => invalidDialog.current.close()}>Close</button>
             </dialog>
-        
-            <section className="loginContainer">
-        
-            <div>
+            <section>
+                <form className="form--login" onSubmit={handleLogin}>
                 <div>
                 <img src={gyslogogive} className="logo" alt="logo" />
                 <img src={gyslogoneed} className="logo" alt="logo" />
                 <img src={gyslogotext} className="logo" alt="logo" />
                 </div>
-            </div>
-        
-            <div className="formContainer">
-                <form className="form--login" onSubmit={handleLogin}>
-                    <fieldset>
-                        <input type="email"
-                            id="email"
-                            className="form-control"
-                            placeholder="Email address"
-                            required autoFocus
-                            value={loginUser.email}
-                            onChange={handleInputChange} />
-                    </fieldset>
 
                     <fieldset>
-                    <br></br>
-                        <Button color="secondary">Log In</Button>
+                        <label htmlFor="inputUsername"> Username </label>
+                        <input ref={username} type="username" id="username" className="form-control"  placeholder="Username" required autoFocus />
+                    </fieldset>
+                    <fieldset>
+                        <label htmlFor="inputPassword"> Password </label>
+                        <input ref={password} type="password" id="password" className="form-control"  placeholder="Password" required />
+                    </fieldset>
+                    <fieldset style={{
+                        textAlign:"center"
+                    }}>
+                        <Button className="btn btn-1 btn-sep icon-send" >Sign In</Button>
                     </fieldset>
                 </form>
-            </div>
-
-            <div align="center">
-                <br></br><br></br>
-                All addresses in the app are random.
-            </div>
-
-            {/* <div className="link--register">
-                <Link to="/register">Register for an account</Link>
-            </div> */}
-
+            </section>
+            <section className="link--register">
+                <Link to="/register">Not signed up yet?</Link>
             </section>
         </main>
     )
 }
-
