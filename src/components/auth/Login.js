@@ -2,7 +2,10 @@ import React, { useState } from "react"
 import { Link, useHistory } from "react-router-dom";
 import { authApi, userStorageKey, userStorageName } from "./authSettings"
 import { Button } from 'reactstrap';
-import perDiemzLogo from "./../../images/perDiemzLogo.jpg"
+import gyslogogive from "./../../images/gyslogogive.png"
+import gyslogoneed from "./../../images/gyslogoneed.png"
+import gyslogotext from "./../../images/gyslogotext.png"
+
 //import "./Login.css"
 
 
@@ -52,13 +55,14 @@ export const Login = () => {
         
             <div>
                 <div>
-                <img src={perDiemzLogo} className="logo" alt="logo" />
+                <img src={gyslogogive} className="logo" alt="logo" />
+                <img src={gyslogoneed} className="logo" alt="logo" />
+                <img src={gyslogotext} className="logo" alt="logo" />
                 </div>
             </div>
         
             <div className="formContainer">
                 <form className="form--login" onSubmit={handleLogin}>
-                            <h3>Please sign in:</h3>
                     <fieldset>
                         <input type="email"
                             id="email"
@@ -68,17 +72,17 @@ export const Login = () => {
                             value={loginUser.email}
                             onChange={handleInputChange} />
                     </fieldset>
+
                     <fieldset>
+                    <br></br>
                         <Button color="secondary">Log In</Button>
                     </fieldset>
                 </form>
             </div>
 
             <div align="center">
-                <br></br>
-                LOG IN AS TEST@TEST.com
-                <br></br>
-                ALL NAMES IN THE APP ARE RANDOM
+                <br></br><br></br>
+                All addresses in the app are random.
             </div>
 
             {/* <div className="link--register">

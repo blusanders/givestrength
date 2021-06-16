@@ -4,11 +4,11 @@ import { Register } from "./auth/Register"
 import { userStorageKey } from "./auth/authSettings"
 
 import { ApplicationViews } from "./ApplicationViews"
-import { NavBar } from "./../components/nav/NavBar"
+import { NavBar } from "./nav/NavBar"
 import { Footer } from "./Footer"
-import "./PerDiemz.css"
+import "./Gys.css"
 
-export const PerDiemz = () => (
+export const Gys = () => (
 
   <>
   <Route render={() => {
