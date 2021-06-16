@@ -1,7 +1,7 @@
 import './App.css';
-import React, { useState, useContext, useEffect } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { Icon, map, useMap, MapConsumer } from "leaflet";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import {L, Map, MapContainer, useMap,useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
+import { Icon } from "leaflet";
 import * as locationData from "./data/locations.json";
 
 export const icon = new Icon({
@@ -14,14 +14,30 @@ export const icon2 = new Icon({
 });
 
 
-
 export default function App() {
+
+  const [stateCenter, setStateCenter] = useState([36.179150, -86.759080])
+
+  const mapRef = useRef();
+
+  function handleOnSetView() {
+    const { current = {} } = mapRef;
+    const { leafletElement: map } = current;
+    console.log(map.getCenter()); 
+    // map.setView(stateCenter, 12);
+  }
+
+  function MyComponent() {
+    // const map = useMap()
+    // console.log('map center:', map.getCenter())
+    // return null
+  }
 
   return (
 
   <div align="center">
 
-  <MapContainer center={[36.179150, -86.759080]} zoom={12}>
+  <MapContainer center={stateCenter} zoom={12}>
 
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -52,9 +68,9 @@ export default function App() {
   </MapContainer>
   
   <br></br>
-  <button >
-    RESET
-  </button>
+  <button onClick={handleOnSetView}>
+            CENTER
+      </button>
 
   </div>
 
