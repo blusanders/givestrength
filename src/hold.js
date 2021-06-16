@@ -137,3 +137,14 @@ export default function App() {
 
 )}
 
+
+
+
+export const icon = new Icon({
+    iconUrl: "",
+    iconSize: [25, 25]
+});
+export const icon2 = new Icon({
+    iconUrl: "/gyslogotestfill.png",
+    iconSize: [25, 25]
+});

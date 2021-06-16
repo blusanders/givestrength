@@ -1,35 +1,20 @@
 import './StrMap.css';
 import React, { useState, useContext, useEffect, useRef } from "react";
+import { useHistory, useParams } from 'react-router-dom';
 import {L, Map, MapContainer, useMap,useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
 import { Icon } from "leaflet";
 import * as locationData from "../../data/locations.json";
-
-export const icon = new Icon({
-    iconUrl: "",
-    iconSize: [25, 25]
-});
-export const icon2 = new Icon({
-    iconUrl: "/gyslogotestfill.png",
-    iconSize: [25, 25]
-});
+import { StrMapContext } from './StrMapProvider';
 
 export const StrMap = () => {
-
+    const { person, getPersonAll } = useContext(StrMapContext)
     const [stateCenter, setStateCenter] = useState([36.179150, -86.759080])
 
-    const mapRef = useRef();
+    useEffect(() => {
+        // getPersonAll()
+    }, [])
 
-    function handleOnSetView() {
-        const { current = {} } = mapRef;
-        const { leafletElement: map } = current;
-        console.log(map.getCenter()); 
-    }
-
-    function MyComponent() {
-        // const map = useMap()
-        // console.log('map center:', map.getCenter())
-        // return null
-    }
+        const history = useHistory();
 
     return (
 
@@ -65,10 +50,6 @@ export const StrMap = () => {
 
     </MapContainer>
 
-    <br></br>
-    <button onClick={handleOnSetView}>
-                CENTER
-        </button>
 
     </div>
 
