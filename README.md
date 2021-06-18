@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# `GIVE YOUR STRENGTH`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is my backend NSS capstone project designed to implement a full stack React to Python/Django app with maps.
 
-## Available Scripts
+## `What is GYS?`
 
-In the project directory, you can run:
+Ths idea behind GYS is based on my time as a caretaker and realizing the important need for physical strength. I thought to myself, it would be quite handy to know if someone near me was in need. Whether that's to get in and out of bed, to get up from a fall, or even to carry some groceries inside.
 
-### `npm start`
+Users sign up as Giveing or Needing strength. Their addresses are geocoded. Then a map is rendered with the opposite help type within a certain distance.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For exmaple, if you can GIVE strength, you can see all the users within 3 miles of your lat/long who NEED help.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The app is not unlike other apps. We capture user data, put it in a database, pull that data back out, and put it on a map. It's a simple app, but was a challenge nonetheless.
 
-### `npm test`
+## -
+## `Tech Used`
+- React Leaflet
+- Django
+- Python
+- sqlLite
+- Distance calc in Python
+- Geocoding using Nominatim
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## -
 
-### `npm run build`
+## `Wishlist`
+Lots of things I'd want to add to this down the road:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Scheduling
+- Routing
+- Messaging between users
+- Change the look and feel of the map
+- Equipment loan
