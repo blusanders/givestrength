@@ -1,0 +1,16 @@
+.loginContainer{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.formContainer{
+    text-align: center;
+}
+
+
+form{
+    padding: 4px;
+}
+
