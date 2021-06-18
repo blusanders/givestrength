@@ -13,10 +13,12 @@ export const iconGive = new Icon({
 });
 export const iconNeed = new Icon({
     iconUrl: "/gyslogoneed.png",
-    iconSize: [45, 25]
+    iconSize: [35, 20]
 });
 
 export const StrMap = () => {
+
+    //get person fetch
     const { person, getPersonAll } = useContext(StrMapContext)
 
     //get lat/long of current user
@@ -30,7 +32,7 @@ export const StrMap = () => {
 
     useEffect(() => {
         getPersonAll(stateDistance)
-    }, [])
+    }, [stateDistance])
     
     const history = useHistory();
 
@@ -38,6 +40,22 @@ export const StrMap = () => {
         const onClick = () => map.flyTo(stateCenter, 12);
         return <button onClick={onClick}>Reset</button>;
     }
+
+    function formatPhoneNumber(phoneNumberString) {
+        var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+    
+    const handleDistanceSelect = (e) => {
+        //sets distance from logged in user to dropdown value
+        //useEffect rerenders markers
+        setStateDistance(e.target.value)
+    }  
+    
     
     return (
 
@@ -53,6 +71,7 @@ export const StrMap = () => {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
 
+
         {person.map(personRecord => (
 
             <Marker
@@ -66,8 +85,12 @@ export const StrMap = () => {
 
             <Popup>
                 <h3>
-                {personRecord.distance?"Need: ":"Give: "}
-                    {personRecord.user.first_name} {personRecord.user.last_name}
+                    {personRecord.distance ? "Need: ":"Give: "}<br></br>
+                    {personRecord.user.first_name} {personRecord.user.last_name}<br></br>
+                    {personRecord.street}, {personRecord.zip}<br></br>
+                    {formatPhoneNumber(personRecord.phone)}<br></br>
+                    {personRecord.distance?personRecord.distance.toFixed(2):""}
+                    {personRecord.distance?" miles":""}
                 </h3>
                 {/* <a href="123">Click Me!</a> */}
                 <p>{personRecord.popup}</p>
@@ -77,30 +100,13 @@ export const StrMap = () => {
         
         ))}
 
-            {/* logged in user marker */}
-            {/* <Marker
-                position={[
-                stateCenter[0],
-                stateCenter[1]
-                ]}
-                icon={iconGive}
-            >
-
-            <Popup>
-                <h3>Main Person
-                </h3>
-                <a href="123">Click Me!</a>
-                <p>Main Popup</p>
-            </Popup>
-            
-            </Marker> */}
-
     </MapContainer>
     <FlyToButton />  
 
     <div>
         <br></br>
-        <select name="distance">
+        Miles from you:<br></br>
+        <select onChange={handleDistanceSelect} value={stateDistance} id="distance">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
