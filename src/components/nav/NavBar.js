@@ -15,8 +15,10 @@ export const NavBar = (props) => {
 
   return (
     <nav className="navbar bg-custom-2 bg-white">
+  {/* // <nav class="navbar navbar-expand-sm bg-info navbar-dark"> */}
 
       <ul className="nav  navbar-collapse nav-fill">
+        
         <li className="">
           <Link className="nav-link inactive" to="/"><img src={gyslogogive} width="100"></img></Link>
         </li>

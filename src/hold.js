@@ -148,3 +148,27 @@ export const icon2 = new Icon({
     iconUrl: "/gyslogotestfill.png",
     iconSize: [25, 25]
 });
+
+
+
+<Marker
+                key={user.user_id}
+                position={[
+                user.coords[0],
+                user.coords[1]
+                ]}
+                // icon={icon}
+            >
+
+            <Popup>
+                <h2>{user.address}</h2>
+                <a href="123">Click Me!</a>
+                <p>{user.popup}</p>
+            </Popup>
+            
+            </Marker>
+        
+        ))}
+
+
+        import * as locationData from "../../data/locations.json";

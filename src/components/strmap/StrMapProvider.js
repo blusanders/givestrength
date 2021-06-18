@@ -7,9 +7,12 @@ export const StrMapProvider = (props) => {
 
     const getPersonAll = (distance) => {
         let fetchURL = `http://localhost:8000/person`
+
         if (distance) {
             fetchURL += `?distance=${distance}`
         }
+        // debugger
+        console.log(fetchURL);
         return fetch(fetchURL, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("gys_token")}`

@@ -5,7 +5,7 @@ import { authApi } from "./authSettings"
 import "./Auth.css"
 import gyslogogive from "./../../images/gyslogogive.png"
 import gyslogoneed from "./../../images/gyslogoneed.png"
-import gyslogotext from "./../../images/gyslogotext.png"
+import gyslogotext from "./../../images/gyslogotext.jpg"
 
 
 export const Login = props => {
@@ -31,9 +31,13 @@ export const Login = props => {
         })
             .then(res => res.json())
             .then(res => {
+                // debugger
                 if ("valid" in res && res.valid && "token" in res) {
+                    // debugger
                     localStorage.setItem( "gys_token", res.token )
                     localStorage.setItem( "gys_username", username.current.value )
+                    localStorage.setItem( "gys_latitude", res.lat )
+                    localStorage.setItem( "gys_longitude", res.long )
                     props.history.push("/")
                 }
                 else {
