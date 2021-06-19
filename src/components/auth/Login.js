@@ -6,6 +6,7 @@ import "./Auth.css"
 import gyslogogive from "./../../images/gyslogogive.png"
 import gyslogoneed from "./../../images/gyslogoneed.png"
 import gyslogotext from "./../../images/gyslogotext.jpg"
+import gyslogoboth from "./../../images/gyslogoboth.jpg"
 
 
 export const Login = props => {
@@ -48,17 +49,18 @@ export const Login = props => {
 
     return (
         <main className="container--login">
+
             <dialog className="dialog dialog--auth" ref={invalidDialog}>
                 <div>Email or password was not valid.</div>
                 <button className="button--close" onClick={e => invalidDialog.current.close()}>Close</button>
             </dialog>
+
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                <div>
-                <img src={gyslogogive} className="logo" alt="logo" />
-                <img src={gyslogoneed} className="logo" alt="logo" />
-                <img src={gyslogotext} className="logo" alt="logo" />
-                </div>
+
+                    <div className="logoContainer">
+                        <img src={gyslogoboth}  alt="logo" />
+                    </div>
 
                     <fieldset>
                         <label htmlFor="inputUsername"> Username </label>
