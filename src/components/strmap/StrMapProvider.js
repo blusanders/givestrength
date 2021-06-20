@@ -4,15 +4,15 @@ export const StrMapContext = React.createContext()
 
 export const StrMapProvider = (props) => {
     const [ person, setPerson ] = useState([])
-
+    const [ personById, setPersonById ] = useState([])
+    
     const getPersonAll = (distance) => {
         let fetchURL = `http://localhost:8000/person`
 
         if (distance) {
             fetchURL += `?distance=${distance}`
         }
-        // debugger
-        console.log(fetchURL);
+
         return fetch(fetchURL, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("gys_token")}`
@@ -23,15 +23,16 @@ export const StrMapProvider = (props) => {
     }
     
     const getPersonById = (personId) => {
-        // debugger
-        let fetchURL = "http://localhost:8000/person/"+personId
+            let fetchURL = `http://localhost:8000/person/${personId}`
+            console.log(fetchURL);
+
         return fetch(fetchURL, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("gys_token")}`
             }
         })
-        .then(res => res.json())
-
+            .then(response => response.json())
+            .then(setPersonById)
     }
 
     const updatePerson = (id, person) => {
@@ -45,13 +46,12 @@ export const StrMapProvider = (props) => {
             },
             body: JSON.stringify(person)
         })
-        // .then(response => response.json())
-        // .then(getStrMaps)
     }
     
     return (
         <StrMapContext.Provider value={{
             person,
+            personById,
             getPersonAll,
             getPersonById,
             updatePerson
