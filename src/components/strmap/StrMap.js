@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import {L, Map, MapContainer, useMap, useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
 import { DivIcon, Icon } from "leaflet";
 import { StrMapContext } from './StrMapProvider';
-import gyslogogive from "./../../images/gyslogogive.png"
+// import gyslogogive from "./../../images/gyslogogive.png"
 import './StrMap.css';
 
 export const iconGive = new Icon({
@@ -24,6 +24,9 @@ export const StrMap = () => {
     //get lat/long of current user
     let lat=localStorage.getItem("gys_latitude")
     let long=localStorage.getItem("gys_longitude")
+    //set Nashville center if lat long error. Looking for error.
+    // if (lat="undefined"){lat=36.17926}
+    // if (long="undefined"){long=-86.787727}
     const [stateCenter, setStateCenter] = useState([lat,long])
 
     const [stateDistance, setStateDistance] = useState(2)

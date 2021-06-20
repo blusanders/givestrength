@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useState } from "react";
 import { Link } from "react-router-dom"
+import { authApi } from "./authSettings"
 import "./Auth.css"
+// require('dotenv').config()
 
 export const Register = (props) => {
+
+    const username = React.createRef()
     const firstName = React.createRef()
     const lastName = React.createRef()
     const email = React.createRef()
@@ -11,32 +15,54 @@ export const Register = (props) => {
     const state = React.createRef()
     const stateDrop = React.createRef()
     const zip = React.createRef()
+    const phone = React.createRef()
+    const lat = React.createRef()
+    const long = React.createRef()
     const bio = React.createRef()
     const popup = React.createRef()
     const password = React.createRef()
     const verifyPassword = React.createRef()
     const passwordDialog = React.createRef()
+    const visa = React.createRef()
+    const mastercard = React.createRef()
+    const giveselect = React.createRef()
+    const giveradio1 = React.createRef()
+    const giveradio2 = React.createRef()
+    
+    
+    // const [statePersonType, setStatePersonType] = useState(1)
 
     const handleRegister = (e) => {
         e.preventDefault()
 
         if (password.current.value === verifyPassword.current.value) {
-            const newUser = {
-                "username": email.current.value,
+            
+
+                const newUser = {
+                "person_type_id": giveselect.current.value,
+                "username": username.current.value,
                 "first_name": firstName.current.value,
                 "last_name": lastName.current.value,
+                "email": email.current.value,
                 "street": street.current.value,
                 "city": city.current.value,
-                "state": state.current.value,
-                "stateDrop": state.current.value,
+                "state": stateDrop.current.value,
                 "zip": zip.current.value,
+                "phone": zip.current.value,
+                "password": password.current.value,
                 "bio": bio.current.value,
                 "popup": popup.current.value,
-                "email": email.current.value,
-                "password": password.current.value
+                // "giveradio1": giveradio1.current.value,
+                // "giveradio2": giveradio2.current.value,
+                // "person_type_id_1": visa.current.value,
+                // "person_type_id_2": mastercard.current.value
             }
 
-            return fetch("http://127.0.0.1:8000/register", {
+            console.log(newUser);
+
+            let fetchURL = authApi.localApiBaseUrl+"/register"
+            // debugger
+            return fetch(fetchURL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,14 +72,25 @@ export const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(res => {
+                    console.log(res);
+                    debugger
                     if ("token" in res) {
-                        localStorage.setItem("gys_token", res.token)
-                        props.history.push("/")
+                        localStorage.setItem("gys_token", res.token) //set token for auth
+                        localStorage.setItem( "gys_username", username.current.value ) // for logout navbar
+                        localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
+                        localStorage.setItem( "gys_longitude", res.long )
+                        props.history.push("/strmap")
                     }
                 })
+
         } else {
             passwordDialog.current.showModal()
         }
+    }
+
+    const handlePersonTypeClick = (e) => {
+        console.log(e.target.value);
+        // setStatePersonType(e.target.value)
     }
 
     return (
@@ -67,15 +104,37 @@ export const Register = (props) => {
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Sign up!</h1>
                 <fieldset>
-                <div class="cc-selector">
-        <input checked="checked" id="visa" type="radio" name="credit-card" value="visa" />
-        <label class="drinkcard-cc visa" for="visa"></label>
-        <input id="mastercard" type="radio" name="credit-card" value="mastercard" />
-        <label class="drinkcard-cc mastercard"for="mastercard"></label>
-    </div>                </fieldset>
+                    <div className="cc-selector">
+                        
+                        <input ref={visa} onClick={handlePersonTypeClick} defaultChecked="checked" id="visa" type="radio" name="visa" value="1" />
+                        <label className="drinkcard-cc visa" htmlFor="visa"></label>
+
+                        <input ref={mastercard} onClick={handlePersonTypeClick} id="mastercard" type="radio" name="visa" value="2" />
+                        <label className="drinkcard-cc mastercard" htmlFor="mastercard"></label>
+
+                    </div>
+                <div>
+                <select ref={giveselect}>
+                    <option value="1">GIVE</option>
+                    <option value="2">NEED</option>
+                </select>
+                
+                {/* <input name="gr" ref={giveradio1} type="radio"  />
+                <input name="gr" ref={giveradio2} type="radio" /> */}
+
+                    {/* <input checked="checked"  id="a1" type="radio" name="a" value="1" />
+                    <label for="a1">Give</label><br/>
+                    <input id="a2" type="radio" name="person_type_id" value="2" />
+                    <label for="a2">Need</label> */}
+                </div>
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="username"> Username </label>
+                    <input ref={username} type="text" name="username" className="form-control" placeholder="Username" required autoFocus />
+                </fieldset>
                 <fieldset>
                     <label htmlFor="firstName"> First Name </label>
-                    <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
+                    <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required  />
                 </fieldset>
                 <fieldset>
                     <label htmlFor="lastName"> Last Name </label>
@@ -154,6 +213,10 @@ export const Register = (props) => {
                 <fieldset>
                     <label htmlFor="inputEmail"> Zip </label>
                     <input ref={zip} type="zip" name="zip" className="form-control" placeholder="Zip" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputPhone"> Phone </label>
+                    <input ref={phone} type="phone" name="phone" className="form-control" placeholder="Phone" required />
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputPassword"> Password </label>

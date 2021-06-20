@@ -74,4 +74,29 @@ export default function App() {
   )}
 
 
-  
+  console.log("first");
+
+            let fetchStreet = street.current.value.replace(/\s/g, "+")
+            let fetchCity = city.current.value.replace(/\s/g, "+")
+            let fetchState = stateDrop.current.value.replace(/\s/g, "+")
+            let fetchZip = zip.current.value.replace(/\s/g, "+")
+            let fullAddress = fetchStreet+"+"+fetchCity+"+"+fetchState+"+"+fetchZip  
+
+            const getGeo = (fullAddress) => {
+                return fetch(`https://geocode.search.hereapi.com/v1/geocode?q=${fullAddress}&apiKey=${process.env.REACT_APP_HERE_GEOCODE_API_KEY}`,)
+                .then(res => res.json())
+                .then(res => {return coords = res.items[0].position})
+            }
+            
+            // let originLatLong = {}
+            // return getLatLong(origin)
+            // .then(res => {
+            //     // res.items[0].position is an object containing lat and long as key value pairs
+            //     return originLatLong = res.items[0].position
+            // })
+
+            let coords = getGeo(fullAddress)
+            console.log("COORDS: "+ coords);
+
+
+
