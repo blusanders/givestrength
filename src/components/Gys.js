@@ -13,14 +13,11 @@ export const Gys = () => (
     <Route render={() => {
         if (localStorage.getItem("gys_token")) {
             return <>
-                <div className="">
-                <div>
-                <Route render={NavBar} />
-                </div>
-                <div>
-                <Route render={props => <ApplicationViews {...props} />} />
-                </div>
-                </div>
+                <div id="page-container">
+                <NavBar />
+                <ApplicationViews />
+                <Footer/>
+            </div>
             </>
         } else {
             return <Redirect to="/login" />

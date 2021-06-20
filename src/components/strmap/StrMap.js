@@ -1,43 +1,39 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { authApi, userStorageKey, userStorageName } from "./../auth/authSettings"
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import {L, Map, MapContainer, useMap, useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
 import { DivIcon, Icon } from "leaflet";
 import { StrMapContext } from './StrMapProvider';
 // import gyslogogive from "./../../images/gyslogogive.png"
 import './StrMap.css';
 
-export const iconGive = new Icon({
+export const icon1 = new Icon({
     iconUrl: "/gyslogogive.png",
     iconSize: [45, 25]
 });
-export const iconNeed = new Icon({
+export const icon2 = new Icon({
     iconUrl: "/gyslogoneed.png",
-    iconSize: [35, 20]
+    iconSize: [45, 25]
 });
 
 export const StrMap = () => {
 
     //get person fetch
-    const { person, getPersonAll } = useContext(StrMapContext)
+    const { person, personById, getPersonAll, getPersonById } = useContext(StrMapContext)
 
     //get lat/long of current user
     let lat=localStorage.getItem("gys_latitude")
     let long=localStorage.getItem("gys_longitude")
-    //set Nashville center if lat long error. Looking for error.
-    // if (lat="undefined"){lat=36.17926}
-    // if (long="undefined"){long=-86.787727}
     const [stateCenter, setStateCenter] = useState([lat,long])
-
-    const [stateDistance, setStateDistance] = useState(2)
+    const [stateDistance, setStateDistance] = useState(3)
+    const history = useHistory();
     const mapRef = useRef();
     const [map, setMap] = useState(null);
 
+    //get all users w in distance of logged in user
     useEffect(() => {
         getPersonAll(stateDistance)
     }, [stateDistance])
-    
-    const history = useHistory();
 
     function FlyToButton() {
         const onClick = () => map.flyTo(stateCenter, 12);
@@ -45,6 +41,7 @@ export const StrMap = () => {
     }
 
     function formatPhoneNumber(phoneNumberString) {
+        // console.log(phoneNumberString);
         var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
         var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
         if (match) {
@@ -58,8 +55,23 @@ export const StrMap = () => {
         //useEffect rerenders markers
         setStateDistance(e.target.value)
     }  
-    
-    
+
+    function iconFunc(personRecord){
+        // debugger
+        if (personRecord.person_type.id===1) {
+            return new Icon({
+                iconUrl: "/gyslogogive.png",
+                iconSize: [45, 25]
+                })
+        }
+        if (personRecord.person_type.id===2) {
+            return new Icon({
+                iconUrl: "/gyslogoneed.png",
+                iconSize: [45, 25]
+                })
+        }
+    }
+
     return (
 
     <div align="center">
@@ -74,16 +86,15 @@ export const StrMap = () => {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
 
-
         {person.map(personRecord => (
-
+        
             <Marker
                 key={personRecord.user_id}
                 position={[
                 personRecord.latitude,
                 personRecord.longitude
                 ]}
-                icon={personRecord.distance?iconNeed:iconGive}
+                icon={iconFunc(personRecord)}
                 >
 
             <Popup>
@@ -95,7 +106,7 @@ export const StrMap = () => {
                     {personRecord.distance?personRecord.distance.toFixed(2):""}
                     {personRecord.distance?" miles":""}
                 </h3>
-                {/* <a href="123">Click Me!</a> */}
+                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>My Info</Link>
                 <p>{personRecord.popup}</p>
             </Popup>
             

@@ -48,7 +48,7 @@ export const Register = (props) => {
                 "city": city.current.value,
                 "state": stateDrop.current.value,
                 "zip": zip.current.value,
-                "phone": zip.current.value,
+                "phone": phone.current.value,
                 "password": password.current.value,
                 "bio": bio.current.value,
                 "popup": popup.current.value,
@@ -73,7 +73,7 @@ export const Register = (props) => {
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
-                    debugger
+                    // debugger
                     if ("token" in res) {
                         localStorage.setItem("gys_token", res.token) //set token for auth
                         localStorage.setItem( "gys_username", username.current.value ) // for logout navbar
