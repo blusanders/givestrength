@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom"
 import { authApi } from "./authSettings"
 import "./Auth.css"
-require('dotenv').config()
+// require('dotenv').config()
 
 export const Register = (props) => {
 
@@ -15,6 +15,9 @@ export const Register = (props) => {
     const state = React.createRef()
     const stateDrop = React.createRef()
     const zip = React.createRef()
+    const phone = React.createRef()
+    const lat = React.createRef()
+    const long = React.createRef()
     const bio = React.createRef()
     const popup = React.createRef()
     const password = React.createRef()
@@ -33,46 +36,32 @@ export const Register = (props) => {
         e.preventDefault()
 
         if (password.current.value === verifyPassword.current.value) {
-            debugger
+            
 
-            let fetchStreet = street.current.value.replace(/\s/g, "+")
-            let fetchCity = city.current.value.replace(/\s/g, "+")
-            let fetchState = stateDrop.current.value.replace(/\s/g, "+")
-            let fetchZip = zip.current.value.replace(/\s/g, "+")
-            let fullAddress = fetchStreet+"+"+fetchCity+"+"+fetchState+"+"+fetchZip  
-
-            const getLatLong = (address) => {
-                let fetchURL = `https://geocode.search.hereapi.com/v1/geocode?q=${address}&apiKey=${process.env.HERE_GEOCODE_API_KEY}`
-                debugger
-                return fetch(fetchURL,)
-                    .then(res => res.json())
-            }
-            let trythis = getLatLong(fullAddress)
-            console.log(trythis);
-
-            debugger
-
-            const newUser = {
+                const newUser = {
+                "person_type_id": giveselect.current.value,
                 "username": username.current.value,
                 "first_name": firstName.current.value,
                 "last_name": lastName.current.value,
+                "email": email.current.value,
                 "street": street.current.value,
                 "city": city.current.value,
                 "state": stateDrop.current.value,
                 "zip": zip.current.value,
+                "phone": zip.current.value,
+                "password": password.current.value,
                 "bio": bio.current.value,
                 "popup": popup.current.value,
-                "email": email.current.value,
-                "password": password.current.value,
-                "person_type_id": giveselect.current.value,
                 // "giveradio1": giveradio1.current.value,
                 // "giveradio2": giveradio2.current.value,
                 // "person_type_id_1": visa.current.value,
                 // "person_type_id_2": mastercard.current.value
             }
 
+            console.log(newUser);
+
             let fetchURL = authApi.localApiBaseUrl+"/register"
-            debugger
+            // debugger
             return fetch(fetchURL, {
                 method: "POST",
                 headers: {
@@ -83,11 +72,17 @@ export const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(res => {
+                    console.log(res);
+                    debugger
                     if ("token" in res) {
-                        localStorage.setItem("gys_token", res.token)
-                        props.history.push("/")
+                        localStorage.setItem("gys_token", res.token) //set token for auth
+                        localStorage.setItem( "gys_username", username.current.value ) // for logout navbar
+                        localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
+                        localStorage.setItem( "gys_longitude", res.long )
+                        props.history.push("/strmap")
                     }
                 })
+
         } else {
             passwordDialog.current.showModal()
         }
@@ -109,13 +104,13 @@ export const Register = (props) => {
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Sign up!</h1>
                 <fieldset>
-                    <div class="cc-selector">
+                    <div className="cc-selector">
                         
                         <input ref={visa} onClick={handlePersonTypeClick} defaultChecked="checked" id="visa" type="radio" name="visa" value="1" />
-                        <label className="drinkcard-cc visa" for="visa"></label>
+                        <label className="drinkcard-cc visa" htmlFor="visa"></label>
 
                         <input ref={mastercard} onClick={handlePersonTypeClick} id="mastercard" type="radio" name="visa" value="2" />
-                        <label className="drinkcard-cc mastercard"for="mastercard"></label>
+                        <label className="drinkcard-cc mastercard" htmlFor="mastercard"></label>
 
                     </div>
                 <div>
@@ -124,8 +119,8 @@ export const Register = (props) => {
                     <option value="2">NEED</option>
                 </select>
                 
-                <input name="gr" ref={giveradio1} type="radio"  />
-                <input name="gr" ref={giveradio2} type="radio" />
+                {/* <input name="gr" ref={giveradio1} type="radio"  />
+                <input name="gr" ref={giveradio2} type="radio" /> */}
 
                     {/* <input checked="checked"  id="a1" type="radio" name="a" value="1" />
                     <label for="a1">Give</label><br/>
@@ -218,6 +213,10 @@ export const Register = (props) => {
                 <fieldset>
                     <label htmlFor="inputEmail"> Zip </label>
                     <input ref={zip} type="zip" name="zip" className="form-control" placeholder="Zip" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputPhone"> Phone </label>
+                    <input ref={phone} type="phone" name="phone" className="form-control" placeholder="Phone" required />
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputPassword"> Password </label>
