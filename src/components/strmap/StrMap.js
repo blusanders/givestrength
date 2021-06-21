@@ -4,7 +4,6 @@ import { useHistory, useParams, Link } from 'react-router-dom';
 import {L, Map, MapContainer, useMap, useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
 import { DivIcon, Icon } from "leaflet";
 import { StrMapContext } from './StrMapProvider';
-// import gyslogogive from "./../../images/gyslogogive.png"
 import './StrMap.css';
 
 export const icon1 = new Icon({
@@ -35,9 +34,10 @@ export const StrMap = () => {
         getPersonAll(stateDistance)
     }, [stateDistance])
 
+    //recenters map to original location based on logged in user
     function FlyToButton() {
         const onClick = () => map.flyTo(stateCenter, 12);
-        return <button onClick={onClick}>Reset</button>;
+        return <button onClick={onClick}>Re-center map</button>;
     }
 
     function formatPhoneNumber(phoneNumberString) {
@@ -51,24 +51,33 @@ export const StrMap = () => {
     }
     
     const handleDistanceSelect = (e) => {
-        //sets distance from logged in user to dropdown value
-        //useEffect rerenders markers
+        //sets distance of map range from logged in user
         setStateDistance(e.target.value)
     }  
 
-    function iconFunc(personRecord){
-        // debugger
-        if (personRecord.person_type.id===1) {
+    //returns the correct marker image based on person type
+    const iconFunc = (personRecord) => {
+        if (parseInt(personRecord.person_type.id)===1) {
             return new Icon({
                 iconUrl: "/gyslogogive.png",
                 iconSize: [45, 25]
-                })
+            })
         }
-        if (personRecord.person_type.id===2) {
+        if (parseInt(personRecord.person_type.id)===2) {
             return new Icon({
                 iconUrl: "/gyslogoneed.png",
                 iconSize: [45, 25]
-                })
+            })
+        }
+    }
+    
+    //returns the popup title based on person type
+    const giveNeedFunc = (personRecord) => {
+        if (parseInt(personRecord.person_type.id)===1) {
+            return "Give"
+        }
+        if (parseInt(personRecord.person_type.id)===2) {
+            return "Need"
         }
     }
 
@@ -87,7 +96,7 @@ export const StrMap = () => {
         />
 
         {person.map(personRecord => (
-        
+
             <Marker
                 key={personRecord.user_id}
                 position={[
@@ -99,14 +108,15 @@ export const StrMap = () => {
 
             <Popup>
                 <h3>
-                    {personRecord.distance ? "Need: ":"Give: "}<br></br>
+                    {giveNeedFunc(personRecord)}:&nbsp;
                     {personRecord.user.first_name} {personRecord.user.last_name}<br></br>
                     {personRecord.street}, {personRecord.zip}<br></br>
                     {formatPhoneNumber(personRecord.phone)}<br></br>
                     {personRecord.distance?personRecord.distance.toFixed(2):""}
                     {personRecord.distance?" miles":""}
+                
+                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>Details</Link>
                 </h3>
-                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>My Info</Link>
                 <p>{personRecord.popup}</p>
             </Popup>
             
@@ -115,11 +125,12 @@ export const StrMap = () => {
         ))}
 
     </MapContainer>
+    <br></br>
     <FlyToButton />  
 
     <div>
         <br></br>
-        Miles from you:<br></br>
+        Within &nbsp;
         <select onChange={handleDistanceSelect} value={stateDistance} id="distance">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -132,6 +143,8 @@ export const StrMap = () => {
             <option value="9">9</option>
             <option value="10">10</option>
         </select>
+        &nbsp;
+        miles from you<br></br>
     </div>
 
     </div>

@@ -9,13 +9,15 @@ export const PersonInfo = () => {
     const { personId } = useParams();
     // console.log(personId);
     
-    const { person, personById, getPersonAll, getPersonById } = useContext(StrMapContext)
+    const { person, getPersonAll, getPersonById } = useContext(StrMapContext)
+    const [ personById, setPersonById ] = useState([])
+
     const [isloading, setIsloading] = useState(true)
 
     useEffect(() => {
         getPersonById(personId)
-        .then(()=>{
-            // console.log("123"+personById.street)
+        .then((x)=>{
+            setPersonById(x)
             setIsloading(false)
         })
     }, [personId])
@@ -29,7 +31,7 @@ export const PersonInfo = () => {
         <div className="personInfo">
 
             <br></br>
-            {personById.user.first_name}
+            {personById.user.first_name}&nbsp;
             {personById.user.last_name}
             <br></br>
             {personById.street}

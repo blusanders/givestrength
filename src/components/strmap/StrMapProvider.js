@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { authApi } from "./../auth/authSettings"
 
 export const StrMapContext = React.createContext()
 
@@ -7,7 +8,8 @@ export const StrMapProvider = (props) => {
     const [ personById, setPersonById ] = useState([])
     
     const getPersonAll = (distance) => {
-        let fetchURL = `http://localhost:8000/person`
+        let fetchURL = authApi.localApiBaseUrl+"/person"
+        // let fetchURL = `http://localhost:8000/person`
 
         if (distance) {
             fetchURL += `?distance=${distance}`
@@ -23,20 +25,25 @@ export const StrMapProvider = (props) => {
     }
     
     const getPersonById = (personId) => {
-            let fetchURL = `http://localhost:8000/person/${personId}`
-            console.log(fetchURL);
-
+        let fetchURL = authApi.localApiBaseUrl+"/person/"+personId
+        // let fetchURL = `http://localhost:8000/person/${personId}`
+        // console.log("GET: "+fetchURL);
         return fetch(fetchURL, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("gys_token")}`
             }
         })
             .then(response => response.json())
-            .then(setPersonById)
+            // .then(setPersonById)
     }
 
-    const updatePerson = (id, person) => {
-        let fetchURL = `http://localhost:8000/games/${id}` 
+    //normal PUT fetch accepting an id
+    //this app only updates logged in user so 0 tells backend to use logged in token
+    // const updatePerson = (id, person) => {
+        // let fetchURL = `http://localhost:8000/person/${id}` 
+
+    const updatePerson = (person) => {
+        let fetchURL = authApi.localApiBaseUrl+"/person/0"
         // debugger
         return fetch(fetchURL, {
             method: "PUT",
@@ -46,15 +53,29 @@ export const StrMapProvider = (props) => {
             },
             body: JSON.stringify(person)
         })
+        // .then(response => response.json())
+        // .then(setVars => {
+        //     localStorage.setItem( "gys_username", setVars.user.username ) // for logout navbar
+        //     localStorage.setItem( "gys_latitude", setVars.latitude ) // lat/long to center map on first render
+        //     localStorage.setItem( "gys_longitude", setVars.longitude )
+        // }
+        // )
     }
     
+    const deletePerson = () => {
+        return fetch(authApi.localApiBaseUrl+`/person/0`, {
+            method: "DELETE"
+        })
+            // then logout ??
+    }
     return (
         <StrMapContext.Provider value={{
             person,
             personById,
             getPersonAll,
             getPersonById,
-            updatePerson
+            updatePerson,
+            deletePerson
             }} >
             { props.children }
         </StrMapContext.Provider>
