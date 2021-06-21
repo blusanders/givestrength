@@ -23,7 +23,7 @@ export const NavBar = (props) => {
           <Link className="nav-link inactive" to="/"><img src={gyslogogive} width="100"></img></Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/person">Your Info</Link>
+          <Link className="nav-link" to="/personedit/">Your Info</Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/strmap">Strength Map</Link>

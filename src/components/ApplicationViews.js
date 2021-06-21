@@ -4,6 +4,7 @@ import { Home } from "./Home";
 import { StrMap } from "./strmap/StrMap";
 import { StrMapProvider } from "./strmap/StrMapProvider";
 import { PersonInfo } from "./strmap/PersonInfo";
+import { PersonForm } from "./strmap/PersonForm";
 
 export const ApplicationViews = () => {
 
@@ -15,6 +16,9 @@ export const ApplicationViews = () => {
                 </Route>
                 <Route exact path="/strmap">
                     <StrMap />
+                </Route>
+                <Route exact path="/personedit">
+                    <PersonForm />
                 </Route>
                 <Route path="/personinfo/:personId(\d+)">
                     <StrMap />
