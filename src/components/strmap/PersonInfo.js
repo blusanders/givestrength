@@ -14,6 +14,16 @@ export const PersonInfo = () => {
 
     const [isloading, setIsloading] = useState(true)
 
+    function formatPhoneNumber(phoneNumberString) {
+        // console.log(phoneNumberString);
+        var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+
     useEffect(() => {
         getPersonById(personId)
         .then((x)=>{
@@ -23,21 +33,24 @@ export const PersonInfo = () => {
     }, [personId])
     
     if (isloading) {
-        return <div>LOADING</div>
+        return <div></div>
     }else{
 
         return (
 
-        <div className="personInfo">
+        <div className="homeContainerText">
 
             <br></br>
+            <b>
             {personById.user.first_name}&nbsp;
-            {personById.user.last_name}
+            {personById.user.last_name}</b>
             <br></br>
             {personById.street}
             <br></br>
             {personById.city}, {personById.state}{personById.zip}
             <br></br>
+            {formatPhoneNumber(personById.phone)}
+            <br></br><br></br>
             {personById.bio}
             <br></br>
 

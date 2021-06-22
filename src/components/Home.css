@@ -9,3 +9,31 @@
     width: 25%;
 
 }
+
+.logoHomeGive{
+    width:300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.logoHomeText{
+    width:400px;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+.homeContainer{
+    /* border:black 1px solid; */
+    margin: auto;
+}
+
+.homeContainerText{
+    max-width: 400px;
+    margin: auto;
+  width: 50%;
+}
+

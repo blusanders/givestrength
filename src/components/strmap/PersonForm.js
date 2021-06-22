@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Component } from "react";
 import { useHistory, useParams } from 'react-router-dom';
 import { StrMapContext } from './StrMapProvider';
 import { StateList } from "./../strmap/StateList"
-import Select from 'react-select';
-
+import { Checkbox } from 'antd';
 import './StrMap.css';
 import { icon1, icon2 } from "./StrMap";
+import gyslogogive from "./../../images/gyslogogive.png"
+import gyslogoneed from "./../../images/gyslogoneed.png"
 
 
 export const PersonForm = () => {
@@ -13,23 +14,56 @@ export const PersonForm = () => {
     const { person, getPersonAll, getPersonById, updatePerson, deletePerson} = useContext(StrMapContext)
     const [isLoading, setIsLoading] = useState(true);
 
-    const [loggedInPerson, setLoggedInPerson] = useState({
-    })
+    const [loggedInPerson, setLoggedInPerson] = useState({})
+    const [selectedDays, setSelectedDays] = useState([]);
+    const [selectedGiveNeed, setSelectedGiveNeed] = useState([]);
 
     const history = useHistory();
     
     const options = [
-        { value: 'Give', label: <div><img src={icon1} height="30px" width="30px"/></div> },
-        { value: 'Need', label: <div><img src={icon2} height="30px" width="30px"/></div> },
+        { value: '1', label: "Monday" },
+        { value: '2', label: "Tuesday" },
+        { value: '3', label: "Wednesday" },
+        { value: '4', label: "Thursday" },
+        { value: '5', label: "Friday" },
+        { value: '6', label: "Saturday" },
+        { value: '7', label: "Sunday" },
     ]
+
+        const optionsGiveNeed = [
+            { value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> },
+            { value: '2', label: <div>Need<img src={gyslogoneed} height="" width="50px"/></div> },
+        ]
+
+        // const handleCheckChange = (event) => {
+
+    //     const newPerson = { ...crew }
+
+    //     if (crew.available===true) {
+    //         newCrew[event.target.id] = false
+    //     }else{
+    //         newCrew[event.target.id] = true
+    //     }
+
+    //     setCrew(newCrew)
+    // }
+
+    const handleSelected = () => {
+        if (loggedInPerson.person_type_id===1){
+            loggedInPerson.person_type_id=2
+        }
+        if (loggedInPerson.person_type_id===2){
+            loggedInPerson.person_type_id=1
+        }
+    }
 
     const handleControlledInputChange = (event) => {
         const newPerson = { ...loggedInPerson }
 
         // debugger
-
-        //if user info from the user table explicitly add to object 
-        //otherwise let the code do it for you
+        if (event.target.id === "on_call"){
+            newPerson.on_call = event.target.value
+        }
 
         if (event.target.id === "person_type_id"){
             newPerson.person_type.id = event.target.value
@@ -64,7 +98,7 @@ export const PersonForm = () => {
     const handleRegister = (e) => {
         e.preventDefault()
 
-        console.log(loggedInPerson);
+        // console.log(loggedInPerson);
         // debugger
         updatePerson({
                 id: loggedInPerson.id,
@@ -79,35 +113,30 @@ export const PersonForm = () => {
                 phone: loggedInPerson.phone,
                 bio: loggedInPerson.bio,
                 popup: loggedInPerson.popup,
+                on_call: loggedInPerson.on_call,
                 person_type_id: loggedInPerson.person_type.id,
+                selected_days: selectedDays
             })
 
             history.push("/strmap")
 
-            // fetch user again to reset username and geocode if changed
-
-            // getPersonById(0)
-            // .then(logPerson => {
-            //     setLoggedInPerson(logPerson)
-                // localStorage.setItem( "gys_username", loggedInPerson.user.username ) // for logout navbar
-                // localStorage.setItem( "gys_latitude", loggedInPerson.latitude ) // lat/long to center map on first render
-                // localStorage.setItem( "gys_longitude", loggedInPerson.longitude )
-            // })
-
-
-        // if (loggedInPerson.password === loggedInPerson.verifyPassword) {
-            // .then(() => history.push(`/`))
-
-            // localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
-            // localStorage.setItem( "gys_longitude", res.long )
-            // props.history.push("/strmap")
-
-        // } else {
-        //     alert("Passwords must match")
-        // }
     }    
 
-    const handleDeletePerson = (event) => {
+    const handleCheckChange = (event) => {
+        // event.preventDefault()
+
+        const newPerson = { ...loggedInPerson }
+
+        if (loggedInPerson.on_call===true) {
+            newPerson[event.target.id] = false
+        }else{
+            newPerson[event.target.id] = true
+        }
+
+        setLoggedInPerson(newPerson)
+    }
+
+        const handleDeletePerson = (event) => {
         if(window.confirm("Are you sure?")===true){
             // deletePerson()
             // .then(() => {
@@ -117,7 +146,7 @@ export const PersonForm = () => {
     }
 
     if (isLoading) {
-        return <div>LOADING</div>
+        return <div></div>
     }else{
 
         return (
@@ -126,9 +155,9 @@ export const PersonForm = () => {
 
             <main style={{ textAlign: "center" }}>
 
-            {/* <Select 
-            options={options}
-            /> */}
+            <div className="selectDays">
+            
+            </div>
 
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Edit your info:</h1>
@@ -142,7 +171,9 @@ export const PersonForm = () => {
                         <option value="1">GIVE</option>
                         <option value="2">NEED</option>
                 </select>
+                
                 </div>
+                
                 
                 </fieldset>
 
@@ -196,11 +227,28 @@ export const PersonForm = () => {
                     <label htmlFor="inputPopup"> Map Marker Popup </label>
                     <input onChange={handleControlledInputChange} id="popup" value={loggedInPerson.popup} type="text" name="popup" className="form-control" placeholder="Hi I'm So and So!" required />
                 </fieldset>
+
+                <fieldset>
+                    <div className="form-group">
+                    
+                    <label htmlFor="available"><br></br>Available:&nbsp;</label>
+                    
+
+                    <input 
+                        checked={loggedInPerson.on_call}
+                        onChange={handleCheckChange}
+                        id="on_call"
+                        type="checkbox"
+                    />
+                
+                    </div>
+                </fieldset>
+
                 <fieldset style={{
                     textAlign: "center"
                 }}>
-                    <button disabled={isLoading} className="btn btn-1 btn-sep icon-send" type="submit">UPDATE</button>
-                    <button disabled={isLoading} type="button" className="btn btn-1 btn-sep icon-send" onClick={handleDeletePerson}>DELETE</button>
+                    <button disabled={isLoading} className="btn btn-1 btn-sep icon-send" type="submit">[UPDATE]</button>
+                    <button disabled={isLoading} type="button" className="btn btn-1 btn-sep icon-send" onClick={handleDeletePerson}>[DELETE]</button>
                 </fieldset>
             </form>
             </main>

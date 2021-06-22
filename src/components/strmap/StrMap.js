@@ -5,6 +5,7 @@ import {L, Map, MapContainer, useMap, useMapEvent, Marker, Popup, TileLayer } fr
 import { DivIcon, Icon } from "leaflet";
 import { StrMapContext } from './StrMapProvider';
 import './StrMap.css';
+import MultiSelect from "react-multi-select-component";
 
 export const icon1 = new Icon({
     iconUrl: "/gyslogogive.png",
@@ -19,36 +20,54 @@ export const StrMap = () => {
 
     //get person fetch
     const { person, personById, getPersonAll, getPersonById } = useContext(StrMapContext)
+    const [loggedInPerson, setLoggedInPerson] = useState({})
+    const [selectedDays, setSelectedDays] = useState([]);
 
     //get lat/long of current user
     let lat=localStorage.getItem("gys_latitude")
     let long=localStorage.getItem("gys_longitude")
+    // const [stateCenter, setStateCenter] = useState([])
     const [stateCenter, setStateCenter] = useState([lat,long])
     const [stateDistance, setStateDistance] = useState(3)
     const history = useHistory();
     const mapRef = useRef();
     const [map, setMap] = useState(null);
 
+    const options = [
+        // { value: 'Give', label: <div><img src={icon1} height="30px" width="30px"/></div> },
+        // { value: 'Need', label: <div><img src={icon2} height="30px" width="30px"/></div> },
+        { value: '1', label: "Monday" },
+        { value: '2', label: "Tuesday" },
+        { value: '3', label: "Wednesday" },
+        { value: '4', label: "Thursday" },
+        { value: '5', label: "Friday" },
+        { value: '6', label: "Saturday" },
+        { value: '7', label: "Sunday" },
+    ]
+
     //get all users w in distance of logged in user
     useEffect(() => {
         getPersonAll(stateDistance)
     }, [stateDistance])
 
+    // useEffect(() => {
+    //     getPersonById(0)
+    //     .then(logPerson => {
+    //         setLoggedInPerson(logPerson)
+    //         debugger
+    //         setStateCenter([
+    //             logPerson.latitude,
+    //             logPerson.longitude
+    //         ])
+    //     })
+    // },[])
+
     //recenters map to original location based on logged in user
     function FlyToButton() {
         const onClick = () => map.flyTo(stateCenter, 12);
-        return <button onClick={onClick}>Re-center map</button>;
+        return <button className="btn btn-1 btn-sep icon-send" onClick={onClick}>[Re-center map]</button>;
     }
 
-    function formatPhoneNumber(phoneNumberString) {
-        // console.log(phoneNumberString);
-        var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-        var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        if (match) {
-        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-        }
-        return null;
-    }
     
     const handleDistanceSelect = (e) => {
         //sets distance of map range from logged in user
@@ -108,14 +127,13 @@ export const StrMap = () => {
 
             <Popup>
                 <h3>
-                    {giveNeedFunc(personRecord)}:&nbsp;
+                    {giveNeedFunc(personRecord)}:&nbsp;<br></br>
                     {personRecord.user.first_name} {personRecord.user.last_name}<br></br>
                     {personRecord.street}, {personRecord.zip}<br></br>
-                    {formatPhoneNumber(personRecord.phone)}<br></br>
                     {personRecord.distance?personRecord.distance.toFixed(2):""}
                     {personRecord.distance?" miles":""}
                 
-                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>Details</Link>
+                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>Click for Details</Link>
                 </h3>
                 <p>{personRecord.popup}</p>
             </Popup>
@@ -146,6 +164,14 @@ export const StrMap = () => {
         &nbsp;
         miles from you<br></br>
     </div>
+
+    {/* <MultiSelect
+            
+        options={options}
+        value={selectedDays}
+        onChange={setSelectedDays}
+        labelledBy="Select"
+    /> */}
 
     </div>
 

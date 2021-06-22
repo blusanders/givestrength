@@ -1,3 +1,9 @@
 .personInfo{
+    width:400px;
     text-align: center;
+}
+
+.selectDays{
+    width: 400px;
+    /* width:auto */
 }
