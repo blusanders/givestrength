@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { StrMapContext } from './StrMapProvider';
 import { StateList } from "./../strmap/StateList"
 import { Checkbox } from 'antd';
-import './StrMap.css';
+// import './StrMap.css';
 import { icon1, icon2 } from "./StrMap";
 import gyslogogive from "./../../images/gyslogogive.png"
 import gyslogoneed from "./../../images/gyslogoneed.png"
@@ -11,6 +11,9 @@ import gyslogoneed from "./../../images/gyslogoneed.png"
 
 export const PersonForm = () => {
     
+    const password = React.createRef()
+    const verifyPassword = React.createRef()
+
     const { person, getPersonAll, getPersonById, updatePerson, deletePerson} = useContext(StrMapContext)
     const [isLoading, setIsLoading] = useState(true);
 
@@ -30,23 +33,10 @@ export const PersonForm = () => {
         { value: '7', label: "Sunday" },
     ]
 
-        const optionsGiveNeed = [
-            { value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> },
-            { value: '2', label: <div>Need<img src={gyslogoneed} height="" width="50px"/></div> },
-        ]
-
-        // const handleCheckChange = (event) => {
-
-    //     const newPerson = { ...crew }
-
-    //     if (crew.available===true) {
-    //         newCrew[event.target.id] = false
-    //     }else{
-    //         newCrew[event.target.id] = true
-    //     }
-
-    //     setCrew(newCrew)
-    // }
+    const optionsGiveNeed = [
+        { value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> },
+        { value: '2', label: <div>Need<img src={gyslogoneed} height="" width="50px"/></div> },
+    ]
 
     const handleSelected = () => {
         if (loggedInPerson.person_type_id===1){
@@ -60,11 +50,9 @@ export const PersonForm = () => {
     const handleControlledInputChange = (event) => {
         const newPerson = { ...loggedInPerson }
 
-        // debugger
         if (event.target.id === "on_call"){
             newPerson.on_call = event.target.value
         }
-
         if (event.target.id === "person_type_id"){
             newPerson.person_type.id = event.target.value
         }
@@ -83,7 +71,7 @@ export const PersonForm = () => {
         if (event.target.id.includes("user.")===false){
             newPerson[event.target.id] = event.target.value
         }
-// debugger
+
         setLoggedInPerson(newPerson)
     }
 
@@ -98,32 +86,37 @@ export const PersonForm = () => {
     const handleRegister = (e) => {
         e.preventDefault()
 
-        // console.log(loggedInPerson);
-        // debugger
-        updatePerson({
-                id: loggedInPerson.id,
-                username: loggedInPerson.user.username,
-                first_name: loggedInPerson.user.first_name,
-                last_name: loggedInPerson.user.last_name,
-                email: loggedInPerson.user.email,
-                street: loggedInPerson.street,
-                city: loggedInPerson.city,
-                state: loggedInPerson.state,
-                zip: loggedInPerson.zip,
-                phone: loggedInPerson.phone,
-                bio: loggedInPerson.bio,
-                popup: loggedInPerson.popup,
-                on_call: loggedInPerson.on_call,
-                person_type_id: loggedInPerson.person_type.id,
-                selected_days: selectedDays
-            })
+        
+        //backend checks if pwd is empty and only updates if not empty
+        if (password.current.value != verifyPassword.current.value) {
+            alert("Passwords must match")
+        }else{
 
-            history.push("/strmap")
+            updatePerson({
+                    id: loggedInPerson.id,
+                    username: loggedInPerson.user.username,
+                    first_name: loggedInPerson.user.first_name,
+                    last_name: loggedInPerson.user.last_name,
+                    email: loggedInPerson.user.email,
+                    street: loggedInPerson.street,
+                    city: loggedInPerson.city,
+                    state: loggedInPerson.state,
+                    zip: loggedInPerson.zip,
+                    phone: loggedInPerson.phone,
+                    password: password.current.value,
+                    bio: loggedInPerson.bio,
+                    popup: loggedInPerson.popup,
+                    on_call: loggedInPerson.on_call,
+                    person_type_id: loggedInPerson.person_type.id,
+                    selected_days: selectedDays
+                })
+
+                .then(() => history.push("/strmap"))
+        }
 
     }    
 
     const handleCheckChange = (event) => {
-        // event.preventDefault()
 
         const newPerson = { ...loggedInPerson }
 
@@ -138,10 +131,10 @@ export const PersonForm = () => {
 
         const handleDeletePerson = (event) => {
         if(window.confirm("Are you sure?")===true){
-            // deletePerson()
-            // .then(() => {
-                // history.push("/login")
-            // })
+            deletePerson()
+            .then(() => {
+                history.push("/login")
+            })
         }
     }
 
@@ -153,11 +146,7 @@ export const PersonForm = () => {
 
         <div className="personInfo">
 
-            <main style={{ textAlign: "center" }}>
-
-            <div className="selectDays">
-            
-            </div>
+            <main className="mainContainer">
 
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Edit your info:</h1>
@@ -173,7 +162,6 @@ export const PersonForm = () => {
                 </select>
                 
                 </div>
-                
                 
                 </fieldset>
 
@@ -204,7 +192,6 @@ export const PersonForm = () => {
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputState"> State </label>
-                    {/* <input length="2" maxLength="2" onChange={handleControlledInputChange} value={loggedInPerson.state} type="state" name="state" className="form-control" placeholder="State" required /> */}
                         <select onChange={handleControlledInputChange} id="state" value={loggedInPerson.state} className="form-control">
                             <StateList />
                     </select>				
@@ -217,6 +204,15 @@ export const PersonForm = () => {
                 <fieldset>
                     <label htmlFor="inputPhone"> Phone </label>
                     <input onChange={handleControlledInputChange} id="phone" value={loggedInPerson.phone} type="text" name="phone" className="form-control" placeholder="Phone" required />
+                </fieldset>
+
+                <fieldset>
+                    <label htmlFor="inputPassword"> Password </label>
+                    <input ref={password} type="text" name="password" className="form-control" placeholder="Password" />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="verifyPassword"> Verify Password </label>
+                    <input ref={verifyPassword} type="text" name="verifyPassword" className="form-control" placeholder="Verify password" />
                 </fieldset>
 
                 <fieldset>

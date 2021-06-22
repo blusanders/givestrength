@@ -8,7 +8,7 @@ This is my backend NSS capstone project designed to implement a full stack React
 
 Ths idea behind GYS is based on my time as a caretaker and realizing the important need for physical strength. I thought to myself, it would be quite handy to know if someone near me was in need. Whether that's to get in and out of bed, to get up from a fall, or even to carry some groceries inside.
 
-Users sign up as Giveing or Needing strength. Their addresses are geocoded. Select themselves as available. Then a map is rendered of users within a certain distance of their geocoded address.
+Users sign up as Giving or Needing strength. Their addresses are geocoded. Select themselves as available. Then a map is rendered of users within a certain distance of their geocoded address.
 
 The app is not unlike other apps. We capture user data, put it in a database, pull that data back out, and put it on a map. It's a simple app, but was a challenge nonetheless.
 #

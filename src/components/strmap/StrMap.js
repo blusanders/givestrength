@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { authApi, userStorageKey, userStorageName } from "./../auth/authSettings"
 import { useHistory, useParams, Link } from 'react-router-dom';
-import {L, Map, MapContainer, useMap, useMapEvent, Marker, Popup, TileLayer } from "react-leaflet";
-import { DivIcon, Icon } from "leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { Icon } from "leaflet";
 import { StrMapContext } from './StrMapProvider';
 import './StrMap.css';
 import MultiSelect from "react-multi-select-component";
@@ -29,38 +29,12 @@ export const StrMap = () => {
     // const [stateCenter, setStateCenter] = useState([])
     const [stateCenter, setStateCenter] = useState([lat,long])
     const [stateDistance, setStateDistance] = useState(3)
-    const history = useHistory();
-    const mapRef = useRef();
     const [map, setMap] = useState(null);
-
-    const options = [
-        // { value: 'Give', label: <div><img src={icon1} height="30px" width="30px"/></div> },
-        // { value: 'Need', label: <div><img src={icon2} height="30px" width="30px"/></div> },
-        { value: '1', label: "Monday" },
-        { value: '2', label: "Tuesday" },
-        { value: '3', label: "Wednesday" },
-        { value: '4', label: "Thursday" },
-        { value: '5', label: "Friday" },
-        { value: '6', label: "Saturday" },
-        { value: '7', label: "Sunday" },
-    ]
 
     //get all users w in distance of logged in user
     useEffect(() => {
         getPersonAll(stateDistance)
     }, [stateDistance])
-
-    // useEffect(() => {
-    //     getPersonById(0)
-    //     .then(logPerson => {
-    //         setLoggedInPerson(logPerson)
-    //         debugger
-    //         setStateCenter([
-    //             logPerson.latitude,
-    //             logPerson.longitude
-    //         ])
-    //     })
-    // },[])
 
     //recenters map to original location based on logged in user
     function FlyToButton() {
@@ -133,7 +107,7 @@ export const StrMap = () => {
                     {personRecord.distance?personRecord.distance.toFixed(2):""}
                     {personRecord.distance?" miles":""}
                 
-                <Link className="nav-link" to={`/personinfo/${personRecord.id}`}>Click for Details</Link>
+                    {personRecord.distance?<Link className="nav-link" to={`/personinfo/${personRecord.id}`}>Click for Details</Link>:""}
                 </h3>
                 <p>{personRecord.popup}</p>
             </Popup>
@@ -164,14 +138,6 @@ export const StrMap = () => {
         &nbsp;
         miles from you<br></br>
     </div>
-
-    {/* <MultiSelect
-            
-        options={options}
-        value={selectedDays}
-        onChange={setSelectedDays}
-        labelledBy="Select"
-    /> */}
 
     </div>
 
