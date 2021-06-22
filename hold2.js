@@ -386,3 +386,38 @@ function onChange(e) {
 <Checkbox checked={loggedInPerson.on_call} onChange={onChange}>Checkbox</Checkbox>
             if(loggedInPerson.person_type_id===1) setSelectedGiveNeed({ value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> })
             if(loggedInPerson.person_type_id===2) setSelectedGiveNeed({ value: '2', label: <div>Give <img src={gyslogoneed} height="" width="55px"/></div> })
+
+
+            const options = [
+              // { value: 'Give', label: <div><img src={icon1} height="30px" width="30px"/></div> },
+              // { value: 'Need', label: <div><img src={icon2} height="30px" width="30px"/></div> },
+              { value: '1', label: "Monday" },
+              { value: '2', label: "Tuesday" },
+              { value: '3', label: "Wednesday" },
+              { value: '4', label: "Thursday" },
+              { value: '5', label: "Friday" },
+              { value: '6', label: "Saturday" },
+              { value: '7', label: "Sunday" },
+          ]
+      
+
+       // useEffect(() => {
+    //     getPersonById(0)
+    //     .then(logPerson => {
+    //         setLoggedInPerson(logPerson)
+    //         debugger
+    //         setStateCenter([
+    //             logPerson.latitude,
+    //             logPerson.longitude
+    //         ])
+    //     })
+    // },[])
+
+
+     {/* <MultiSelect
+            
+        options={options}
+        value={selectedDays}
+        onChange={setSelectedDays}
+        labelledBy="Select"
+    /> */}

@@ -50,13 +50,9 @@ export const Register = (props) => {
                 "password": password.current.value,
                 "bio": bio.current.value,
                 "popup": popup.current.value,
-                // "giveradio1": giveradio1.current.value,
-                // "giveradio2": giveradio2.current.value,
-                // "person_type_id_1": visa.current.value,
-                // "person_type_id_2": mastercard.current.value
+                
             }
 
-            console.log(newUser);
 
             let fetchURL = authApi.localApiBaseUrl+"/register"
             // debugger
@@ -70,14 +66,12 @@ export const Register = (props) => {
             })
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res);
-                    // debugger
                     if ("token" in res) {
                         localStorage.setItem("gys_token", res.token) //set token for auth
                         localStorage.setItem( "gys_username", username.current.value ) // for logout navbar
                         localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
                         localStorage.setItem( "gys_longitude", res.long )
-                        props.history.push("/strmap")
+                        props.history.push("/")
                     }
                 })
 
@@ -118,13 +112,6 @@ export const Register = (props) => {
                     <option value="2">NEED</option>
                 </select>
                 
-                {/* <input name="gr" ref={giveradio1} type="radio"  />
-                <input name="gr" ref={giveradio2} type="radio" /> */}
-
-                    {/* <input checked="checked"  id="a1" type="radio" name="a" value="1" />
-                    <label for="a1">Give</label><br/>
-                    <input id="a2" type="radio" name="person_type_id" value="2" />
-                    <label for="a2">Need</label> */}
                 </div>
                 </fieldset>
                 <fieldset>

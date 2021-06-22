@@ -9,7 +9,6 @@ export const StrMapProvider = (props) => {
     
     const getPersonAll = (distance) => {
         let fetchURL = authApi.localApiBaseUrl+"/person"
-        // let fetchURL = `http://localhost:8000/person`
 
         if (distance) {
             fetchURL += `?distance=${distance}`
@@ -53,6 +52,8 @@ export const StrMapProvider = (props) => {
             },
             body: JSON.stringify(person)
         })
+        .then(() => getPersonAll(3))
+
         // .then(response => response.json())
         // .then(setVars => {
         //     localStorage.setItem( "gys_username", setVars.user.username ) // for logout navbar
@@ -64,10 +65,15 @@ export const StrMapProvider = (props) => {
     
     const deletePerson = () => {
         return fetch(authApi.localApiBaseUrl+`/person/0`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("gys_token")}`,
+            }
+        }).then(()=>{
+            localStorage.setItem("gys_token", "") //set token for auth
         })
-            // then logout ??
     }
+
     return (
         <StrMapContext.Provider value={{
             person,
