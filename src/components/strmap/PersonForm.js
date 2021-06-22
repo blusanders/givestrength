@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState, Component } from "react";
 import { useHistory, useParams } from 'react-router-dom';
 import { StrMapContext } from './StrMapProvider';
 import { StateList } from "./../strmap/StateList"
-import Select from 'react-select';
-import MultiSelect from "react-multi-select-component";
-import Checkbox from 'react-checkbox-component'
-
+import { Checkbox } from 'antd';
 import './StrMap.css';
 import { icon1, icon2 } from "./StrMap";
+import gyslogogive from "./../../images/gyslogogive.png"
+import gyslogoneed from "./../../images/gyslogoneed.png"
 
 
 export const PersonForm = () => {
@@ -17,12 +16,11 @@ export const PersonForm = () => {
 
     const [loggedInPerson, setLoggedInPerson] = useState({})
     const [selectedDays, setSelectedDays] = useState([]);
+    const [selectedGiveNeed, setSelectedGiveNeed] = useState([]);
 
     const history = useHistory();
     
     const options = [
-        // { value: 'Give', label: <div><img src={icon1} height="30px" width="30px"/></div> },
-        // { value: 'Need', label: <div><img src={icon2} height="30px" width="30px"/></div> },
         { value: '1', label: "Monday" },
         { value: '2', label: "Tuesday" },
         { value: '3', label: "Wednesday" },
@@ -32,7 +30,12 @@ export const PersonForm = () => {
         { value: '7', label: "Sunday" },
     ]
 
-    // const handleCheckChange = (event) => {
+        const optionsGiveNeed = [
+            { value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> },
+            { value: '2', label: <div>Need<img src={gyslogoneed} height="" width="50px"/></div> },
+        ]
+
+        // const handleCheckChange = (event) => {
 
     //     const newPerson = { ...crew }
 
@@ -45,11 +48,20 @@ export const PersonForm = () => {
     //     setCrew(newCrew)
     // }
 
+    const handleSelected = () => {
+        if (loggedInPerson.person_type_id===1){
+            loggedInPerson.person_type_id=2
+        }
+        if (loggedInPerson.person_type_id===2){
+            loggedInPerson.person_type_id=1
+        }
+    }
+
     const handleControlledInputChange = (event) => {
         const newPerson = { ...loggedInPerson }
 
+        // debugger
         if (event.target.id === "on_call"){
-            debugger
             newPerson.on_call = event.target.value
         }
 
@@ -110,6 +122,20 @@ export const PersonForm = () => {
 
     }    
 
+    const handleCheckChange = (event) => {
+        // event.preventDefault()
+
+        const newPerson = { ...loggedInPerson }
+
+        if (loggedInPerson.on_call===true) {
+            newPerson[event.target.id] = false
+        }else{
+            newPerson[event.target.id] = true
+        }
+
+        setLoggedInPerson(newPerson)
+    }
+
         const handleDeletePerson = (event) => {
         if(window.confirm("Are you sure?")===true){
             // deletePerson()
@@ -145,7 +171,9 @@ export const PersonForm = () => {
                         <option value="1">GIVE</option>
                         <option value="2">NEED</option>
                 </select>
+                
                 </div>
+                
                 
                 </fieldset>
 
@@ -205,21 +233,14 @@ export const PersonForm = () => {
                     
                     <label htmlFor="available"><br></br>Available:&nbsp;</label>
                     
-                    {/* <MultiSelect
-            
-                    options={options}
-                    value={selectedDays}
-                    onChange={setSelectedDays}
-                    labelledBy="Select"
-                    /> */}
 
                     <input 
-                        value={loggedInPerson.on_call}
-                        onChange={handleControlledInputChange}
+                        checked={loggedInPerson.on_call}
+                        onChange={handleCheckChange}
                         id="on_call"
                         type="checkbox"
                     />
-                    
+                
                     </div>
                 </fieldset>
 

@@ -265,3 +265,124 @@ const handleRegister = (e) => {
 
 
                             {/* <Checkbox size="small" id="chk" onChange={handler} isChecked="true"/> */}
+
+
+                                      {/* <Select id="optionsGiveNeed" 
+                    value={selectedGiveNeed}
+                    onChange={setSelectedGiveNeed}
+                    options={optionsGiveNeed} /> */}
+
+                                  {/* <MultiSelect
+            
+                    options={options}
+                    value={selectedDays}
+                    onChange={setSelectedDays}
+                    labelledBy="Select"
+                    /> */}
+
+
+                    import { Radio } from 'antd';
+
+                    const App = () => {
+                      const [value, setValue] = React.useState(1);
+                    
+                      const onChange = e => {
+                        console.log('radio checked', e.target.value);
+                        setValue(e.target.value);
+                      };
+                    
+                      return (
+                        <Radio.Group onChange={onChange} value={value}>
+                          <Radio value={1}>A</Radio>
+                          <Radio value={2}>B</Radio>
+                          <Radio value={3}>C</Radio>
+                          <Radio value={4}>D</Radio>
+                        </Radio.Group>
+                      );
+                    };
+                    
+                    ReactDOM.render(<App />, mountNode);
+
+                    import { Radio } from 'antd';
+
+                    import { Radio, Input, Space } from 'antd';
+
+class App extends React.Component {
+  state = {
+    value: 1,
+  };
+
+  onChange = e => {
+    console.log('radio checked', e.target.value);
+    this.setState({
+      value: e.target.value,
+    });
+  };
+
+  render() {
+    const { value } = this.state;
+    return (
+      <Radio.Group onChange={this.onChange} value={value}>
+        <Space direction="vertical">
+          <Radio value={1}>Option A</Radio>
+          <Radio value={2}>Option B</Radio>
+          <Radio value={3}>Option C</Radio>
+          <Radio value={4}>
+            More...
+            {value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+          </Radio>
+        </Space>
+      </Radio.Group>
+    );
+  }
+}
+
+ReactDOM.render(<App />, mountNode);
+
+<Radio.Group onChange={handleSelected} value={} >
+<Radio value="1">GIVE</Radio>
+<Radio value="2">NEED</Radio>
+</Radio.Group>
+
+import { Select } from 'antd';
+
+const { Option } = Select;
+
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
+
+ReactDOM.render(
+  <>
+    <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
+      <Option value="jack">Jack</Option>
+      <Option value="lucy">Lucy</Option>
+      <Option value="disabled" disabled>
+        Disabled
+      </Option>
+      <Option value="Yiminghe">yiminghe</Option>
+    </Select>
+    <Select defaultValue="lucy" style={{ width: 120 }} disabled>
+      <Option value="lucy">Lucy</Option>
+    </Select>
+    <Select defaultValue="lucy" style={{ width: 120 }} loading>
+      <Option value="lucy">Lucy</Option>
+    </Select>
+    <Select defaultValue="lucy" style={{ width: 120 }} allowClear>
+      <Option value="lucy">Lucy</Option>
+    </Select>
+  </>,
+  mountNode,
+);
+
+import { Checkbox } from 'antd';
+
+function onChange(e) {
+  console.log(`checked = ${e.target.checked}`);
+}
+
+<Checkbox value="true" onChange={onChange}>Checkbox</Checkbox>
+
+<Checkbox checked={loggedInPerson.on_call} onChange={onChange}>Checkbox</Checkbox>
+            if(loggedInPerson.person_type_id===1) setSelectedGiveNeed({ value: '1', label: <div>Give <img src={gyslogogive} height="" width="55px"/></div> })
+            if(loggedInPerson.person_type_id===2) setSelectedGiveNeed({ value: '2', label: <div>Give <img src={gyslogoneed} height="" width="55px"/></div> })

@@ -172,3 +172,11 @@ export const icon2 = new Icon({
 
 
         import * as locationData from "../../data/locations.json";
+
+
+Duke Panaders
+232 Capitol View Ave
+Nashville, TN37207
+(615) 555-1212
+
+Hey everyone I'm Duke. I have five years experience caretaking. I would love to help you no matter what the need.
