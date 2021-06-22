@@ -29,7 +29,8 @@ export const NavBar = (props) => {
           <Link className="nav-link" to="/strmap">Strength Map</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="" onClick={LogOut}>Logout - {localStorage.getItem("gys_username")}</Link>
+          <Link className="nav-link" to="" onClick={LogOut}>Logout</Link>
+          {/* <Link className="nav-link" to="" onClick={LogOut}>Logout - {localStorage.getItem("gys_username")}</Link> */}
         </li>
       </ul>
     </nav>

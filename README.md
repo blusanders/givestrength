@@ -8,20 +8,25 @@ Ths idea behind GYS is based on my time as a caretaker and realizing the importa
 
 Users sign up as Giveing or Needing strength. Their addresses are geocoded. Then a map is rendered with the opposite help type within a certain distance.
 
-For exmaple, if you can GIVE strength, you can see all the users within 3 miles of your lat/long who NEED help.
+For example, if you can GIVE strength, you can see all the users within 3 miles of your address who NEED strength.
 
 The app is not unlike other apps. We capture user data, put it in a database, pull that data back out, and put it on a map. It's a simple app, but was a challenge nonetheless.
 
 ## -
 ## `Tech Used`
-- React Leaflet
+- React
+- React Leaflet Maps
 - Django
 - Python
 - sqlLite
 - Distance calc in Python
 - Geocoding using Nominatim
 
-## -
+## Setup
+- Clone this repository and change to the directory in the terminal.
+- Run pipenv shell
+- Run pipenv install
+- python manage.py runserver
 
 ## `Wishlist`
 Lots of things I'd want to add to this down the road:

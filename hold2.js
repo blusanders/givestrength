@@ -100,3 +100,168 @@ export default function App() {
 
 
 
+            <main style={{ textAlign: "center" }}>
+
+            <form className="form--login" onSubmit={handleRegister}>
+                <h1 className="h3 mb-3 font-weight-normal">Edit your info:</h1>
+                <fieldset>
+                
+                <div>
+                <select value={personById.person_type.id}>
+                    <option value="1">GIVE</option>
+                    <option value="2">NEED</option>
+                </select>
+                </div>
+                
+                </fieldset>
+                
+                <fieldset>
+                    <label htmlFor="username"> Username </label>
+                    <input value={personById.user.username} type="text" name="username" className="form-control" placeholder="Username" required autoFocus />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="firstName"> First Name </label>
+                    <input value={personById.firstName} type="text" name="firstName" className="form-control" placeholder="First name" required  />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="lastName"> Last Name </label>
+                    <input value={personById.lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputEmail"> Email address </label>
+                    <input value={personById.email} type="email" name="email" className="form-control" placeholder="Email address" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputStreet"> Street </label>
+                    <input value={personById.street} type="street" name="street" className="form-control" placeholder="Street" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputCity"> City address </label>
+                    <input value={personById.city} type="city" name="city" className="form-control" placeholder="City" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputState"> State </label>
+                    {/* <input length="2" maxLength="2" value={personById.state} type="state" name="state" className="form-control" placeholder="State" required /> */}
+                        <select value={personById.stateDrop} className="form-control">
+                            <StateList />
+                    </select>				
+	
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputEmail"> Zip </label>
+                    <input value={personById.zip} type="zip" name="zip" className="form-control" placeholder="Zip" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputPhone"> Phone </label>
+                    <input value={personById.phone} type="phone" name="phone" className="form-control" placeholder="Phone" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputPassword"> Password </label>
+                    <input value={personById.password} type="password" name="password" className="form-control" placeholder="Password" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="verifyPassword"> Verify Password </label>
+                    <input value={personById.verifyPassword} type="password" name="verifyPassword" className="form-control" placeholder="Verify password" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputBio"> Bio </label>
+                    <textarea value={personById.bio} name="bio" className="form-control" placeholder="Write a short bio" />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="inputPopup"> Map Marker Popup </label>
+                    <input value={personById.popup} type="popup" name="popup" className="form-control" placeholder="Hi I'm So and So!" required />
+                </fieldset>
+                <fieldset style={{
+                    textAlign: "center"
+                }}>
+                    <button className="btn btn-1 btn-sep icon-send" type="submit">Register</button>
+                </fieldset>
+            </form>
+        </main>
+
+
+
+
+const [person, setPersonById] = useState({
+  username:"",
+  firstName:"",
+  lastName:"",
+  email:"",
+  street:"",
+  city:"",
+  stateDrop:"",
+  zip:"",
+  phone:"",
+  lat:"",
+  long:"",
+  bio:"",
+  popup:"",
+  password:"",
+  verifyPassword:"",
+  passwordDialog:"",
+  person_type_id:""
+})
+
+useEffect(() => {
+  getPersonById(0)
+ 
+      setIsloading(false)
+  })
+},[])
+
+const handleRegister = (e) => {
+  e.preventDefault()
+
+  if (person.password === person.verifyPassword) {
+      updatePerson({
+          // username:person.username,
+          // firstName:person.firstName,
+          // lastName:person.lastName,
+          // email:person.email,
+          // street:person.street,
+          // city:person.city,
+          // stateDrop:person.stateDrop,
+          // zip:person.zip,
+          // phone:person.phone,
+          // bio:person.bio,
+          // popup:person.popup,
+          // password:person.password,
+          // person_type_id:person.person_type_id
+          // available: crew.available
+      })
+      // .then(() => history.push(`/`))
+
+      // localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
+      // localStorage.setItem( "gys_longitude", res.long )
+      // props.history.push("/strmap")
+
+  } else {
+      passwordDialog.current.showModal()
+  }
+}    
+
+
+          // fetch user again to reset username and geocode if changed
+
+            // getPersonById(0)
+            // .then(logPerson => {
+            //     setLoggedInPerson(logPerson)
+                // localStorage.setItem( "gys_username", loggedInPerson.user.username ) // for logout navbar
+                // localStorage.setItem( "gys_latitude", loggedInPerson.latitude ) // lat/long to center map on first render
+                // localStorage.setItem( "gys_longitude", loggedInPerson.longitude )
+            // })
+
+
+        // if (loggedInPerson.password === loggedInPerson.verifyPassword) {
+            // .then(() => history.push(`/`))
+
+            // localStorage.setItem( "gys_latitude", res.lat ) // lat/long to center map on first render
+            // localStorage.setItem( "gys_longitude", res.long )
+            // props.history.push("/strmap")
+
+        // } else {
+        //     alert("Passwords must match")
+        // }
+
+
+                            {/* <Checkbox size="small" id="chk" onChange={handler} isChecked="true"/> */}
