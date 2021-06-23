@@ -25,7 +25,7 @@ fieldset {
     display: inline-block;
 }
 
-.form-control {
+/* .form-control {
     display: block;
     width: 94%;
     height: calc(1.5em + .75rem + 2px);
@@ -40,7 +40,7 @@ fieldset {
     border-radius: .25rem;
     -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
+} */
 
 .container--login {
     text-align: center;
