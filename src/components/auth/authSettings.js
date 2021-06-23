@@ -1,7 +1,7 @@
 // If your json-server API URL or endpoint is different, please change it below!
 export const authApi = {
   // localApiBaseUrl: "http://localhost:8000",
-  localApiBaseUrl: "http://gys-server.herokuapp.com",
+  localApiBaseUrl: "https://gys-server.herokuapp.com",
 
   endpoint: "users"
 }
